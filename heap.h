@@ -19,7 +19,7 @@ struct MinHeap {
         if (size < 64) {
             data[size] = idx;
             size++;
-            upheap(size, weightArr);
+            upheap(size - 1, weightArr);
         }
     }
 
@@ -27,9 +27,10 @@ struct MinHeap {
         // TODO: remove and return smallest index
         if (size != 0) {
             int temp = data[0];
-            data[0] = data[size];
+            data[0] = data[size - 1];
             size--;
-            downheap(size, weightArr);
+            if (size > 0)
+                downheap(0, weightArr);
             return temp;
         }
         return -1;
@@ -54,6 +55,8 @@ struct MinHeap {
             return;
         }
         while (weightArr[data[pos]] > weightArr[data[leftC]] || weightArr[data[pos]] > weightArr[data[rightC]]) {
+            int leftC = pos * 2 + 1;
+            int rightC = pos * 2 + 2;
             if (weightArr[data[leftC]] < weightArr[data[rightC]]) {
                 swap(pos, leftC);
             }

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stack>
 #include <string>
+#include <utility>
 #include "heap.h"
 using namespace std;
 
@@ -124,10 +125,35 @@ int buildEncodingTree(int nextFree) {
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
+    if (root < 0) return;
 
     // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
+    stack<pair<int, string>> stk;
+    stk.push({root, ""});
+
+    while (!stk.empty()) {
+        pair<int, string> temp = stk.top();
+        int node = temp.first;
+        string path = temp.second;
+        stk.pop();
+
+        int leftC = leftArr[node];
+        int rightC = rightArr[node];
+        // Record code when a leaf node is reached.
+        if (leftC == -1 && rightC == -1) {
+            char c = charArr[node];
+            if (c >= 'a' && c <= 'z') {
+                codes[c - 'a'] = path;
+            }
+        }
+        // Left edge adds '0', right edge adds '1'.
+        if (leftC != -1) {
+            stk.push({leftC, path + "0"});
+        }
+        if (rightC != -1) {
+            stk.push({rightC, path + "1"});
+        }
+    }
 }
 
 // Step 5: Print table and encoded message
