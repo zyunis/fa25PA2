@@ -16,22 +16,22 @@ struct MinHeap {
 
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
-        if (size < 64) {
-            data[size] = idx;
-            size++;
+        if (size < 64) { // Makes sure array is not full
+            data[size] = idx; // Stores indices in the heap
+            size++; // Increments perceived 'size' even though actual array does not grow
             upheap(size - 1, weightArr);
         }
     }
 
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
-        if (size != 0) {
+        if (size != 0) { // Checks if array is empty
             int temp = data[0];
             data[0] = data[size - 1];
             size--;
             if (size > 0)
                 downheap(0, weightArr);
-            return temp;
+            return temp; // Returns the element at the top of the heap
         }
         return -1;
     }
@@ -41,9 +41,9 @@ struct MinHeap {
         if (size <= 1) {
             return;
         }
-        while (weightArr[data[pos]] < weightArr[data[(pos - 1) / 2]]) {
-            swap(pos, (pos - 1) / 2);
-            pos = (pos - 1) / 2;
+        while (weightArr[data[pos]] < weightArr[data[(pos - 1) / 2]]) { // Checks if parent node is greater than child
+            swap(pos, (pos - 1) / 2); // Swaps the data between the current position and its parent node
+            pos = (pos - 1) / 2; // New current position is the parent
         }
     }
 
@@ -54,15 +54,15 @@ struct MinHeap {
         if (size <= 1) {
             return;
         }
-        while (weightArr[data[pos]] > weightArr[data[leftC]] || weightArr[data[pos]] > weightArr[data[rightC]]) {
-            int leftC = pos * 2 + 1;
-            int rightC = pos * 2 + 2;
-            if (weightArr[data[leftC]] < weightArr[data[rightC]]) {
+        while (weightArr[data[pos]] > weightArr[data[leftC]] || weightArr[data[pos]] > weightArr[data[rightC]]) { // Checks to see if parent is greater than children
+            if (weightArr[data[leftC]] < weightArr[data[rightC]]) { // Checks which child is smaller and swaps with them
                 swap(pos, leftC);
             }
             else {
                 swap(pos, rightC);
             }
+            leftC = pos * 2 + 1; // Reassigns left and right children
+            rightC = pos * 2 + 2;
         }
     }
 

@@ -92,7 +92,7 @@ int createLeafNodes(int freq[]) {
 int buildEncodingTree(int nextFree) {
     // TODO:
     // 1. Create a MinHeap object.
-    MinHeap leafNodes;
+    MinHeap leafNodes; // New heap
 
     // 2. Push all leaf node indices into the heap.
     for (int i = 0; i < nextFree; i++) {
@@ -128,7 +128,7 @@ void generateCodes(int root, string codes[]) {
     if (root < 0) return;
 
     // Use stack<pair<int, string>> to simulate DFS traversal.
-    stack<pair<int, string>> stk;
+    stack<pair<int, string>> stk; // Create stack
     stk.push({root, ""});
 
     while (!stk.empty()) {
@@ -140,7 +140,7 @@ void generateCodes(int root, string codes[]) {
         int leftC = leftArr[node];
         int rightC = rightArr[node];
         // Record code when a leaf node is reached.
-        if (leftC == -1 && rightC == -1) {
+        if (leftC == -1 && rightC == -1) { // If both left and right are -1, add character's binary path to the codes
             char c = charArr[node];
             if (c >= 'a' && c <= 'z') {
                 codes[c - 'a'] = path;
